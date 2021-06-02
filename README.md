@@ -8,6 +8,19 @@ This project aims to be able to store documentation securly and allow people to 
 
 For example, important Documentation like wills get fordged and people struggle to get access to the documentations, however by storing the documentation on something like the blockchain it ensures the documentation cannot be changed and can be easily accessed. At the start of the project the aim is too create something like this without using the blockchain (prototype). 
 
+## Features
+### User System
+- Log In 
+- Store Tokens to User 
+- Using ASP.NET MVC User Account System 
+
+### Store Documents 
+- Upload Document 
+- Store Document to database 
+### Retrieve Documents 
+### Payment System 
+### Token System
+
 ## Roadmap 
 ### Phase 1 (June to August) 
 - Website 
