@@ -1,4 +1,5 @@
 ﻿using DocumentationChain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -26,6 +27,14 @@ namespace DocumentationChain.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> StoreDocuments(string pdfFile)
+        {
+          
+           
+            return RedirectToAction("Documents");
         }
 
         public IActionResult Documents()
