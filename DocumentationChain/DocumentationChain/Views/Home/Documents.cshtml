@@ -44,10 +44,16 @@
 
                             <div class="d-flex align-items-center justify-content-between  px-3 py-2 mt-4">
                                 <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold"></span></p>
-                                <input type="file" name="elementName" style="display:none; " id="chooseFile" />
-                                <button class="button is-primary" onclick="storeDocuments();" style="margin-right:10px;">Store Documents</button>
-                                <button class="button is-primary" onclick="storeDocuments()">Retrieve Documents</button>
-                               
+                                <input type="file" name="elementName" style="display:none; " id="pdfFile" />
+                                @using (Html.BeginForm("ActionmethodName", "ControllerName", FormMethod.Post, new { id = "formid" }))
+                                {
+                                    <input type="file" name="file" />
+                                    <input type="submit" value="Upload" class="save" id="btnid" />
+                                }
+                                <button class="button is-primary" onclick="uploadDocuments();" style="margin-right:10px; display:none;" id="uploadDoc">Upload Documents</button>
+                                <button class="button is-primary" onclick="storeDocuments();" style="margin-right:10px;" id="chooseFile">Store Documents</button>
+                                <button class="button is-primary" onclick="">Retrieve Documents</button>
+
 
                             </div>
                         </div>
@@ -80,17 +86,26 @@
 <script>
 
     function storeDocuments() {
-        var x = document.getElementById("chooseFile").style.display;
+        var x = document.getElementById("pdfFile").style.display;
 
-        if (x == 'none') {
-            document.getElementById("chooseFile").style.display = 'block';
+        if (x == 'none')
+        {
+            document.getElementById("pdfFile").style.display = 'block';
+            document.getElementById("uploadDoc").style.display = 'block';
         }
-        else {
-            document.getElementById("chooseFile").style.display = 'none';
-        }
+        else
+        {
+            document.getElementById("pdfFile").style.display = 'none';
+            document.getElementById("uploadDoc").style.display = 'none';
+        }          
+    }
 
-        
-       
+    function uploadDocuments() {
+        const fileInput = document.getElementById('pdfFile');
+        fileInput.onchange = () => {
+            const selectedFile = fileInput.files[0];
+            console.log(selectedFile);
+        }
     }
 
 </script>

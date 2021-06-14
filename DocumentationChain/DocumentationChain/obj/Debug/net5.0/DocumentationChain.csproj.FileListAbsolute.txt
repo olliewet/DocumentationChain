@@ -197,3 +197,11 @@ C:\Users\Ollie\Desktop\Work\DocumentationChain\DocumentationChain\DocumentationC
 C:\Users\Ollie\Desktop\Work\DocumentationChain\DocumentationChain\DocumentationChain\obj\Debug\net5.0\DocumentationChain.pdb
 C:\Users\Ollie\Desktop\Work\DocumentationChain\DocumentationChain\DocumentationChain\obj\Debug\net5.0\DocumentationChain.genruntimeconfig.cache
 C:\Users\Ollie\Desktop\Work\DocumentationChain\DocumentationChain\DocumentationChain\obj\Debug\net5.0\Razor\Views\Home\Documents.cshtml.g.cs
+C:\Users\Ollie\Desktop\Work\DocumentationChain\DocumentationChain\DocumentationChain\bin\Debug\net5.0\BouncyCastle.Crypto.dll
+C:\Users\Ollie\Desktop\Work\DocumentationChain\DocumentationChain\DocumentationChain\bin\Debug\net5.0\Google.Protobuf.dll
+C:\Users\Ollie\Desktop\Work\DocumentationChain\DocumentationChain\DocumentationChain\bin\Debug\net5.0\K4os.Compression.LZ4.dll
+C:\Users\Ollie\Desktop\Work\DocumentationChain\DocumentationChain\DocumentationChain\bin\Debug\net5.0\K4os.Compression.LZ4.Streams.dll
+C:\Users\Ollie\Desktop\Work\DocumentationChain\DocumentationChain\DocumentationChain\bin\Debug\net5.0\K4os.Hash.xxHash.dll
+C:\Users\Ollie\Desktop\Work\DocumentationChain\DocumentationChain\DocumentationChain\bin\Debug\net5.0\MySql.Data.dll
+C:\Users\Ollie\Desktop\Work\DocumentationChain\DocumentationChain\DocumentationChain\bin\Debug\net5.0\Ubiety.Dns.Core.dll
+C:\Users\Ollie\Desktop\Work\DocumentationChain\DocumentationChain\DocumentationChain\bin\Debug\net5.0\Zstandard.Net.dll
