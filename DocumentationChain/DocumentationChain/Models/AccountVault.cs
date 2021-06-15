@@ -8,7 +8,9 @@ namespace DocumentationChain.Models
 {
     public class AccountVault
     {
+
         private readonly DocumentationContext _context = null; 
+        
         public AccountVault(DocumentationContext context)
         {
             _context = context;
@@ -46,7 +48,6 @@ namespace DocumentationChain.Models
             }
             context.SaveChanges();
         }
-
-
+        
     }
 }

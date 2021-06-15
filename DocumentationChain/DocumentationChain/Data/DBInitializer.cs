@@ -33,7 +33,7 @@ namespace DocumentationChain.Data
         
             */
 
-           
+           /*
             if (context.Account.Any())
             {
                 return;   // DB has been seeded
@@ -47,9 +47,11 @@ namespace DocumentationChain.Data
             {
                 context.Account.Add(s);
             }
+
             
 
             context.SaveChanges();
+           */
         }
 
 

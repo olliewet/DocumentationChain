@@ -2,6 +2,7 @@
     ViewData["Title"] = "Documents";
 }
 
+@model BufferedSingleFileUploadDbModel
 
 
 <div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
@@ -45,15 +46,39 @@
                             <div class="d-flex align-items-center justify-content-between  px-3 py-2 mt-4">
                                 <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold"></span></p>
                                 <input type="file" name="elementName" style="display:none; " id="pdfFile" />
-                                @using (Html.BeginForm("ActionmethodName", "ControllerName", FormMethod.Post, new { id = "formid" }))
-                                {
-                                    <input type="file" name="file" />
-                                    <input type="submit" value="Upload" class="save" id="btnid" />
-                                }
-                                <button class="button is-primary" onclick="uploadDocuments();" style="margin-right:10px; display:none;" id="uploadDoc">Upload Documents</button>
-                                <button class="button is-primary" onclick="storeDocuments();" style="margin-right:10px;" id="chooseFile">Store Documents</button>
-                                <button class="button is-primary" onclick="">Retrieve Documents</button>
 
+                                <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SettingUploadData">
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <p>Upload one or more files using this form:</p>
+                                            <input type="file" name="files" multiple />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="submit" value="Upload" />
+                                        </div>
+                                    </div>
+                                </form>
+
+
+                                <!--
+
+                                    <form enctype="multipart/form-data" method="post">
+                                        <dl>
+                                            <dt>
+                                                <label asp-for="FileUpload.FormFile"></label>
+                                            </dt>
+                                            <dd>
+                                                <input asp-for="FileUpload.FormFile" asp-route="Custom" type="file">
+                                            </dd>
+                                        </dl>
+                                        <input asp-page-handler="Upload" class="btn" type="submit" value="Upload">
+                                    </form>
+                                    <button class="button is-primary" onclick="uploadDocuments();" style="margin-right:10px; display:none;" id="uploadDoc">Upload Documents</button>
+                                    <button class="button is-primary" onclick="storeDocuments();" style="margin-right:10px;" id="chooseFile">Store Documents</button>
+                                    <button class="button is-primary" onclick="">Retrieve Documents</button>
+                                  --->
 
                             </div>
                         </div>

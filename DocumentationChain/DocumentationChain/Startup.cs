@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static DocumentationChain.Models.BufferedSingleFileUploadDbModel;
 
 namespace DocumentationChain
 {
@@ -37,7 +38,8 @@ namespace DocumentationChain
                     .AddDefaultUI()
                     .AddDefaultTokenProviders();
             services.AddControllersWithViews();
-            services.AddScoped<AccountVault, AccountVault>();
+            //services.AddScoped<AccountVault, AccountVault>();
+            services.AddScoped<FileVault, FileVault>();
             services.AddRazorPages();
         }
 

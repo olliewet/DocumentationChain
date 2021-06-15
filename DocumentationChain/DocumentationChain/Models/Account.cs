@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DocumentationChain.Models
 {
+    
     public class Account
     {
         public Account(int ID, string name, string price)
@@ -25,4 +26,5 @@ namespace DocumentationChain.Models
 
        
     }
+    
 }
