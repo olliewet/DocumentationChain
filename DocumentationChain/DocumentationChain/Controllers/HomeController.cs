@@ -37,7 +37,7 @@ namespace DocumentationChain.Controllers
         }
 
         public IActionResult Index()
-        {
+        {        
             return View();
         }
 
@@ -48,7 +48,7 @@ namespace DocumentationChain.Controllers
 
 
 
-        public async Task<IActionResult> SettingUploadData(List<IFormFile> files)
+        public async Task<IActionResult> SettingUploadData(List<IFormFile> files, string SecPhase)
         {
             
             long size = files.Sum(f => f.Length);
@@ -64,10 +64,9 @@ namespace DocumentationChain.Controllers
                         if (memoryStream.Length < 2097152)
                         {
                             var file = new File()
-                            {
-                                Id = 1,
+                            {                 
                                 Content = memoryStream.ToArray(),
-                                SecPhase = "TestOneTestOne"
+                                SecPhase = SecPhase
                             };
                             fileVault.UploadToDatabase(file);
                         }
@@ -80,6 +79,18 @@ namespace DocumentationChain.Controllers
                 }
             }
             return RedirectToAction("Documents");
+        }
+
+
+
+
+        [HttpPost]
+        public FileResult DownloadFile(string secPhase)
+        {
+
+            File _file = new File();
+            _file = fileVault.DownLoadFile(secPhase);
+            return File(_file.Content, "application/pdf");
         }
 
         public async Task<IActionResult> StoreDocuments()

@@ -1,8 +1,11 @@
 ﻿@{
     ViewData["Title"] = "Documents";
+
 }
 
-@model BufferedSingleFileUploadDbModel
+@model File 
+ 
+
 
 
 <div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
@@ -31,7 +34,7 @@
 
                             <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
                                 <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold"></span></p>
-                               <a asp-controller="Home" asp-action="AddToCart" asp-route-id="" asp-route-name="" asp-route-price="" asp-route-image="" class="badge badge-danger px-3 rounded-pill font-weight-normal" style="color:white">Buy Now With Paypal</a>
+                                <a asp-controller="Home" asp-action="AddToCart" asp-route-id="" asp-route-name="" asp-route-price="" asp-route-image="" class="badge badge-danger px-3 rounded-pill font-weight-normal" style="color:white">Buy Now With Paypal</a>
 
                             </div>
                         </div>
@@ -39,7 +42,7 @@
                 </article>
                 <article class="tile is-child notification is-white" style="text-align: center;">
                     <div class="bg-white rounded shadow-sm">
-                       
+
                         <div class="p-4">
                             <h5 class="text-dark"> </h5>
 
@@ -52,6 +55,10 @@
                                         <div class="col-md-10">
                                             <p>Upload one or more files using this form:</p>
                                             <input type="file" name="files" multiple />
+
+                                            <h3> Please Enter a Secret Phase</h3>
+                                            <input type="text" name="SecPhase" multiple />
+
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -60,28 +67,47 @@
                                         </div>
                                     </div>
                                 </form>
+                                <br />
 
+                                <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="DownloadFile">
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            
 
-                                <!--
+                                            <h3> Please Enter a Secret Phase</h3>
+                                            <input type="text" name="SecPhase" multiple />
 
-                                    <form enctype="multipart/form-data" method="post">
-                                        <dl>
-                                            <dt>
-                                                <label asp-for="FileUpload.FormFile"></label>
-                                            </dt>
-                                            <dd>
-                                                <input asp-for="FileUpload.FormFile" asp-route="Custom" type="file">
-                                            </dd>
-                                        </dl>
-                                        <input asp-page-handler="Upload" class="btn" type="submit" value="Upload">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="submit" value="Upload" />
+                                        </div>
+                                    </div>
+                                </form>
+                                <!---
+                                    <form>
+                                        <div class="form-group">
+                                            <div class="col-md-10">
+                                                <h3> Please Enter a Secret Phase</h3>
+                                                <input type="text" name="SecPhase" multiple id="SecText" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-10">
+                                        
+                                                <button onclick="Onclick()" id="UploadData"> Upload</button>
+                                            </div>
+                                        </div>
                                     </form>
-                                    <button class="button is-primary" onclick="uploadDocuments();" style="margin-right:10px; display:none;" id="uploadDoc">Upload Documents</button>
-                                    <button class="button is-primary" onclick="storeDocuments();" style="margin-right:10px;" id="chooseFile">Store Documents</button>
-                                    <button class="button is-primary" onclick="">Retrieve Documents</button>
-                                  --->
+    --->
+
+
 
                             </div>
+
                         </div>
+
                     </div>
                 </article>
                 <article class="tile is-child notification is-white" style="text-align: center; visibility:hidden;">
@@ -110,19 +136,33 @@
 </div>
 <script>
 
+  
+    function Onclick() {
+        var textbox = document.getElementById("SecText").value;
+       
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DownloadFile","Home")',
+                data: {
+                    'secPhase': textbox
+                }
+            });
+       
+    }
+
+
+
     function storeDocuments() {
         var x = document.getElementById("pdfFile").style.display;
 
-        if (x == 'none')
-        {
+        if (x == 'none') {
             document.getElementById("pdfFile").style.display = 'block';
             document.getElementById("uploadDoc").style.display = 'block';
         }
-        else
-        {
+        else {
             document.getElementById("pdfFile").style.display = 'none';
             document.getElementById("uploadDoc").style.display = 'none';
-        }          
+        }
     }
 
     function uploadDocuments() {
