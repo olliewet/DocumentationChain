@@ -23,9 +23,9 @@ For example, important Documentation like wills get fordged and people struggle 
 
 ## Roadmap 
 ### Phase 1 (June to August) 
-- Website 
-- Store Documents 
-- Retrieve Documents 
+- Website (In Progress) 
+- Store Documents (Works stores to a SQL Database) 
+- Retrieve Documents (Works Displays them using browser) 
 - Payment System (Using Paypal Sandbox) 
 - Token System 
 - Extended Road map 
