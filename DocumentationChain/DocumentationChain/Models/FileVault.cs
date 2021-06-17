@@ -15,41 +15,33 @@ namespace DocumentationChain.Models
             _context = context;
         }
 
+        /// <summary>
+        /// Adds File to Database 
+        /// </summary>
+        /// <param name="file"></param>
         public async void UploadToDatabase(File file)
         {
             _context.Add(file);
             await _context.SaveChangesAsync();
         }
 
-        public void DownloadFileFromDatabase(string SecPhase)
-        {
-           var DownloadedFile = _context.File.Where(f => f.SecPhase == SecPhase);               
-        }
 
-       
+        /// <summary>
+        /// Querys through database context to find a file assoicated to the users security Phase
+        /// The selected file is returned
+        /// </summary>
+        /// <param name="SecPhase"></param>
+        /// <returns></returns>
         public File DownLoadFile(string SecPhase)
-        {
-
-
-            List<File> ObjFiles = GetFileList();
-
-            var test = _context.File.Where(w => w.SecPhase == SecPhase).FirstOrDefault();
-
-            /*
-            var FileById = (from FC in ObjFiles
-                            where FC.SecPhase.Equals(SecPhase)
-                            select new { FC.Id, FC.Content, FC.SecPhase}).ToList().FirstOrDefault();
-            */
-
-            File DownloadedFile = new File();
-            DownloadedFile.Id = test.Id;
-            DownloadedFile.Content = test.Content;
-            DownloadedFile.SecPhase = test.SecPhase;
-
-            return DownloadedFile;
-
+        {           
+            var tempFile = _context.File.Where(w => w.SecPhase == SecPhase).FirstOrDefault();          
+            return new File(tempFile.Id, tempFile.Content, tempFile.SecPhase);
         }
 
+        /// <summary>
+        /// Stores the whole database as a List which is returned 
+        /// </summary>
+        /// <returns></returns>
         private List<File> GetFileList()
         {
             List<File> DetList = new List<File>();

@@ -8,7 +8,9 @@ namespace DocumentationChain.Models
 {
     public class AccountVault
     {
-
+        /// <summary>
+        /// Class that was used for testing purposing 
+        /// </summary>
         private readonly DocumentationContext _context = null; 
         
         public AccountVault(DocumentationContext context)

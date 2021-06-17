@@ -20,20 +20,17 @@ namespace DocumentationChain.Controllers
 {
     public class HomeController : Controller
     {
+        //Instances 
         private readonly ILogger<HomeController> _logger;
-       // private readonly AccountVault accountVault = null;
+        private readonly AccountVault accountVault = null;
         private readonly FileVault fileVault = null;
 
 
-
-
-
-        public HomeController(ILogger<HomeController> logger, /*AccountVault av */ FileVault fv)
+        public HomeController(ILogger<HomeController> logger, AccountVault av, FileVault fv)
         {
-           // accountVault = av;
+            accountVault = av;
             fileVault = fv;
-            _logger = logger;
-          
+            _logger = logger;    
         }
 
         public IActionResult Index()
@@ -47,7 +44,14 @@ namespace DocumentationChain.Controllers
         }
 
 
-
+        /// <summary>
+        /// Reads in a list of files and the Security Phase 
+        /// The file and the security phase is stored in the database 
+        /// Redirection to Document Page
+        /// </summary>
+        /// <param name="files"></param>
+        /// <param name="SecPhase"></param>
+        /// <returns></returns>
         public async Task<IActionResult> SettingUploadData(List<IFormFile> files, string SecPhase)
         {
             
@@ -84,6 +88,12 @@ namespace DocumentationChain.Controllers
 
 
 
+        /// <summary>
+        /// Used to Download The File that is assoicated to the Security Phase 
+        /// File is returned to the browsers PDF Application
+        /// </summary>
+        /// <param name="secPhase"></param>
+        /// <returns></returns>
         [HttpPost]
         public FileResult DownloadFile(string secPhase)
         {
@@ -101,12 +111,6 @@ namespace DocumentationChain.Controllers
 
         public IActionResult Documents()
         {
-            /*
-            Account test = new Account(2, "David", "5");
-
-            accountVault.AddAccount(test);
-            */
-           // accountVault.RemoveAccount(2);
             return View();
         }
 
