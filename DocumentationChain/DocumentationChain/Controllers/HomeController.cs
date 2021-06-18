@@ -109,10 +109,17 @@ namespace DocumentationChain.Controllers
         }
 
 
+        public IActionResult RetrieveDocuments()
+        {
+            return View();
+        }
+
         public IActionResult Documents()
         {
             return View();
         }
+
+
 
 
 

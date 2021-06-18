@@ -7,133 +7,56 @@
  
 
 
-
-<div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
-    <div class="tile is-vertical is-parent is-12">
-        <div class="tile">
-            <article class="tile is-child notification is-white" style="text-align: center;">
-                <p class="subtitle" style="font-family: 'IBM Plex Mono Light'"><strong>Store Or Retrieve Documents!</strong> </p>
-                <p class="subtitle" style="font-family: 'IBM Plex Mono Light'">Please Click an Option Below</p>
-            </article>
-        </div>
-    </div>
-</div>
-
-<div class="tile is-ancestor" style="margin-top: 15px;">
-
-    <div class="tile is-vertical">
-        <div class="tile">
-            <div class="tile is-parent">
-                <!--- Item 1 --->
-
-                <article class="tile is-child notification is-white" style="text-align: center; visibility:hidden;">
-                    <div class="bg-white rounded shadow-sm">
-                        <img src=" " style="width: 440px; height: 226px;" class="img-fluid card-img-top">
-                        <div class="p-4">
-                            <h5 class="text-dark"> </h5>
-
-                            <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
-                                <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold"></span></p>
-                                <a asp-controller="Home" asp-action="AddToCart" asp-route-id="" asp-route-name="" asp-route-price="" asp-route-image="" class="badge badge-danger px-3 rounded-pill font-weight-normal" style="color:white">Buy Now With Paypal</a>
-
-                            </div>
-                        </div>
-                    </div>
-                </article>
+<body>
+    <div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
+        <div class="tile is-vertical is-parent is-12">
+            <div class="tile">
                 <article class="tile is-child notification is-white" style="text-align: center;">
-                    <div class="bg-white rounded shadow-sm">
-
-                        <div class="p-4">
-                            <h5 class="text-dark"> </h5>
-
-                            <div class="d-flex align-items-center justify-content-between  px-3 py-2 mt-4">
-                                <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold"></span></p>
-                                <input type="file" name="elementName" style="display:none; " id="pdfFile" />
-
-                                <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SettingUploadData">
-                                    <div class="form-group">
-                                        <div class="col-md-10">
-                                            <p>Upload one or more files using this form:</p>
-                                            <input type="file" name="files" multiple />
-
-                                            <h3> Please Enter a Secret Phase</h3>
-                                            <input type="text" name="SecPhase" multiple />
-
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-10">
-                                            <input type="submit" value="Upload" />
-                                        </div>
-                                    </div>
-                                </form>
-                                <br />
-
-                                <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="DownloadFile">
-                                    <div class="form-group">
-                                        <div class="col-md-10">
-                                            
-
-                                            <h3> Please Enter a Secret Phase</h3>
-                                            <input type="text" name="SecPhase" multiple />
-
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-10">
-                                            <input type="submit" value="Upload" />
-                                        </div>
-                                    </div>
-                                </form>
-                                <!---
-                                    <form>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <h3> Please Enter a Secret Phase</h3>
-                                                <input type="text" name="SecPhase" multiple id="SecText" />
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                        
-                                                <button onclick="Onclick()" id="UploadData"> Upload</button>
-                                            </div>
-                                        </div>
-                                    </form>
-    --->
-
-
-
-                            </div>
-
-                        </div>
-
-                    </div>
+                    <p class="subtitle" style="font-family: 'IBM Plex Mono Light'"><strong>Store Or Retrieve Documents!</strong> </p>
+                    <p class="subtitle" style="font-family: 'IBM Plex Mono Light'">Please Click an Option Below</p>
                 </article>
-                <article class="tile is-child notification is-white" style="text-align: center; visibility:hidden;">
-                    <div class="bg-white rounded shadow-sm">
-                        <img src=" " style="width: 440px; height: 226px;" class="img-fluid card-img-top">
-                        <div class="p-4">
-                            <h5 class="text-dark"> </h5>
-
-                            <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
-                                <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold"></span></p>
-                                <a asp-controller="Home" asp-action="AddToCart" asp-route-id="" asp-route-name="" asp-route-price="" asp-route-image="" class="badge badge-danger px-3 rounded-pill font-weight-normal" style="color:white">Buy Now With Paypal</a>
-
-                            </div>
-                        </div>
-                    </div>
-                </article>
-                <!--- End --->
-                <!--- Item 2 --->
-                <!--- End --->
-                <!--- Item 4 --->
-
             </div>
         </div>
     </div>
+    <div class="tile is-ancestor" style="margin-top: 15px;">
+        <div class="tile is-vertical">
+            <div class="tile">
+                <div class="tile is-parent">
+                    <article class="tile is-child notification is-white center">
+                        <div class="bg-white rounded shadow-sm">
 
-</div>
+                            <div class="p-4">
+                                <h5 class="text-dark"> </h5>
+                                <div class="d-flex align-items-center justify-content-between  px-3 py-2 mt-4">
+                                    <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold"></span></p>
+                                    <input type="file" name="elementName" style="display:none; " id="pdfFile" />
+                                    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SettingUploadData">
+                                        <div class="form-group">
+                                            <div class="col-md-10">
+                                                <p>Upload one or more files using this form:</p>
+                                                <input type="file" name="files" multiple />
+
+                                                <h3> Please Enter a Secret Phase</h3>
+                                                <input type="text" name="SecPhase" multiple />
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-10">
+                                                <input type="submit" value="Upload" />
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 <script>
 
   
