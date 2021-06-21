@@ -2,6 +2,7 @@
 using DocumentationChain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
@@ -24,16 +25,19 @@ namespace DocumentationChain.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly AccountVault accountVault = null;
         private readonly FileVault fileVault = null;
+        private readonly SignInManager<ApplicationUser> _signManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-
-        public HomeController(ILogger<HomeController> logger, AccountVault av, FileVault fv)
+        public HomeController(ILogger<HomeController> logger, AccountVault av, FileVault fv, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             accountVault = av;
             fileVault = fv;
-            _logger = logger;    
+            _logger = logger;
+            _signManager = signInManager;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {        
             return View();
         }
@@ -43,6 +47,23 @@ namespace DocumentationChain.Controllers
             return View();
         }
 
+        [Authorize]
+        public async Task<IActionResult> UserBalancingTesting()
+        {
+            //Get the Logged In User 
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            //Get Balance 
+            float balance = user.GetBalance();
+
+            //Add To Balance 
+            float newBalance = balance + 1;
+
+            //Update to Balance
+            user.SetBalance(newBalance);
+            user.GetBalance();
+            return RedirectToAction("Index");
+        }
 
         /// <summary>
         /// Reads in a list of files and the Security Phase 

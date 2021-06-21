@@ -10,6 +10,17 @@ namespace DocumentationChain.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public float Balance { get; set; }
+
+        public void SetBalance(float newBalance)
+        {      
+            Balance = newBalance;
+        }
+
+        public float GetBalance()
+        {
+            return Balance; 
+        }
 
     }
 }
