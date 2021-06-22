@@ -47,6 +47,12 @@ namespace DocumentationChain.Controllers
             return View();
         }
 
+        public IActionResult PurchaseTokens()
+        {
+            return View();
+        }
+
+
         [Authorize]
         public async Task<IActionResult> UserBalancingTesting()
         {

@@ -1,0 +1,120 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<body>
+    <div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
+        <div class="tile is-vertical is-parent is-12">
+            <div class="tile">
+                <article class="tile is-child notification is-white" style="text-align: center;">
+                    <p class="subtitle" style="font-family: 'IBM Plex Mono Light'"><strong>Purchase Tokens to store Documents!</strong> </p>
+                    <p class="subtitle" style="font-family: 'IBM Plex Mono Light'">Please Enter an Amount Below</p>
+                </article>
+            </div>
+        </div>
+    </div>
+    <div class="tile is-ancestor" style="margin-left: 550px; margin-right: 550px; margin-top: 10px;">
+        <div class="tile is-vertical is-parent is-6">
+            <div class="tile">
+                <div class="">
+                    <h3> Please Enter a Choosen Amount</h3>
+                    <input type="text" name="AmountBox" id="TokenPurchase" multiple />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+        <div id="paypal-button-container"></div>
+    </div>
+</body>
+
+<script src="https://www.paypal.com/sdk/js?client-id=AYUMEewur6ChNqBT-8Rlq1c7PC2QX9rA8rVaUZ3Ntx6i8UQjQdMFgbNarkH9fY5IJ52CYps1pTNpIpyE&currency=GBP" data-sdk-integration-source="button-factory"></script>
+<script>
+
+    function GetAmount() {
+        var amount = document.getElementById("TokenPurchase").value;
+        return amount;
+    }
+    function initPayPalButton() {
+        paypal.Buttons({
+            style: {
+                shape: 'rect',
+                color: 'gold',
+                layout: 'vertical',
+                label: 'paypal'
+
+            },
+
+
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [
+                        {
+
+                            reference_id: "documentationChain.ID",
+                            description: "documentationchain ID",
+
+
+                            custom_id: "documentationChainID",
+                            amount: {
+                                currency_code: "GBP",
+                                value: GetAmount(), //Get the Total Of Price From Box
+                                breakdown: {
+                                    item_total: {
+                                        currency_code: "GBP",
+                                        value: GetAmount() //Get the Total Of Price From Box
+                                    }
+                                }
+                            },
+                            items: [
+                                {
+                                name: "Tokens",
+                                SKU: "TokenID",
+                                unit_amount: {
+                                    currency_code: "GBP",
+                                    value: GetAmount()
+                                    },
+                                quantity: "1",                                  
+                        },                               
+                           ]
+                        }
+                    ]
+                });
+            },
+
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function (details) {
+                    /*
+                    Used initially instead of the invoices to alert the customer
+                    alert('Transaction completed by ' + details.payer.name.given_name + '!');
+
+                    console.log(JSON.stringify(details)); (Used for testing to display all the information provided by paypal)
+                    */
+                    var name = details.payer.name.given_name;
+                    var payPalOrderID = details.id;
+
+                    //Empty the shopping cart for next time
+                    document.getElementById('removebtn').click();
+
+                    //redirect the user to new invoice page
+                    var url = '/Home/Invoice?orderId=' + payPalOrderID + '&name=' + name + '&totalprice=' + countCartTotal();
+                    window.location.href = url;
+                });
+            },
+
+            onCancel: function(data) {
+                //return to cart
+            },
+
+            onError: function(err) {
+                console.log(err);
+            }
+        }).render('#paypal-button-container');
+    }
+
+
+    initPayPalButton();
+</script>
