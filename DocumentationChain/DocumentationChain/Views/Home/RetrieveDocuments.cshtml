@@ -4,7 +4,7 @@
 @{
 }
 
-
+@model ErrorHandling
 
 <body>
     <div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
@@ -33,7 +33,12 @@
         </form>
     </article>
 
-   
+    @if (ViewBag.Error != null)
+    {
+        <h3 style="color:red">@ViewBag.Error</h3>
+    }
+
+
 </body>
 
 

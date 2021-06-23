@@ -33,10 +33,15 @@
 
 <script src="https://www.paypal.com/sdk/js?client-id=AYUMEewur6ChNqBT-8Rlq1c7PC2QX9rA8rVaUZ3Ntx6i8UQjQdMFgbNarkH9fY5IJ52CYps1pTNpIpyE&currency=GBP" data-sdk-integration-source="button-factory"></script>
 <script>
+    var TotalAmount;
 
     function GetAmount() {
-        var amount = document.getElementById("TokenPurchase").value;
-        return amount;
+        TotalAmount = document.getElementById("TokenPurchase").value;
+        return TotalAmount;
+    }
+
+    function ClearInputBox() {
+        document.getElementById("TokenPurchase").value = "";
     }
     function initPayPalButton() {
         paypal.Buttons({
@@ -77,8 +82,8 @@
                                     currency_code: "GBP",
                                     value: GetAmount()
                                     },
-                                quantity: "1",                                  
-                        },                               
+                                quantity: "1",
+                        },
                            ]
                         }
                     ]
@@ -96,12 +101,16 @@
                     var name = details.payer.name.given_name;
                     var payPalOrderID = details.id;
 
-                    //Empty the shopping cart for next time
-                    document.getElementById('removebtn').click();
+                    ClearInputBox();
+                    var amount = TotalAmount; //if you want to pass an Id parameter
+                     $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AddTokenBalance", "Home")',
+                data: {
+                    'amount': amount
+                }
+            });
 
-                    //redirect the user to new invoice page
-                    var url = '/Home/Invoice?orderId=' + payPalOrderID + '&name=' + name + '&totalprice=' + countCartTotal();
-                    window.location.href = url;
                 });
             },
 

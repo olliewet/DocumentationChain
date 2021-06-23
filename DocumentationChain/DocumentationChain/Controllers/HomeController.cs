@@ -53,8 +53,8 @@ namespace DocumentationChain.Controllers
         }
 
 
-        [Authorize]
-        public async Task<IActionResult> UserBalancingTesting()
+        [HttpPost]
+        public async Task<IActionResult> AddTokenBalance(float amount)
         {
             //Get the Logged In User 
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -63,12 +63,11 @@ namespace DocumentationChain.Controllers
             float balance = user.GetBalance();
 
             //Add To Balance 
-            float newBalance = balance + 1;
-
+            float newBalance = balance + amount;
             //Update to Balance
             user.SetBalance(newBalance);
-            user.GetBalance();
-            return RedirectToAction("Index");
+            await _userManager.UpdateAsync(user);
+            return RedirectToAction("PurchaseTokens");
         }
 
         /// <summary>
@@ -81,33 +80,49 @@ namespace DocumentationChain.Controllers
         /// <returns></returns>
         public async Task<IActionResult> SettingUploadData(List<IFormFile> files, string SecPhase)
         {
-            
-            long size = files.Sum(f => f.Length);
-            var filePaths = new List<string>();
-            foreach (var formFile in files)
-            {
-                if (formFile.Length > 0)
-                {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await formFile.CopyToAsync(memoryStream);
-                        // Upload the file if less than 2 MB
-                        if (memoryStream.Length < 2097152)
-                        {
-                            var file = new File()
-                            {                 
-                                Content = memoryStream.ToArray(),
-                                SecPhase = SecPhase
-                            };
-                            fileVault.UploadToDatabase(file);
-                        }
-                        else
-                        {
-                            ModelState.AddModelError("File", "The file is too large.");
-                        }
+            //Get the Logged In User 
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
+            //Get Balance 
+            float balance = user.GetBalance();
+          
+            if (balance >= 5)
+            {
+                float newBalance = balance - 5;
+                user.SetBalance(newBalance);
+                await _userManager.UpdateAsync(user);
+
+                long size = files.Sum(f => f.Length);
+                var filePaths = new List<string>();
+                foreach (var formFile in files)
+                {
+                    if (formFile.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await formFile.CopyToAsync(memoryStream);
+                            // Upload the file if less than 2 MB
+                            if (memoryStream.Length < 2097152)
+                            {
+                                var file = new File()
+                                {
+                                    Content = memoryStream.ToArray(),
+                                    SecPhase = SecPhase
+                                };
+                                fileVault.UploadToDatabase(file);
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("File", "The file is too large.");
+                            }
+
+                        }
                     }
                 }
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Not Enough Tokens";
             }
             return RedirectToAction("Documents");
         }
@@ -122,12 +137,21 @@ namespace DocumentationChain.Controllers
         /// <param name="secPhase"></param>
         /// <returns></returns>
         [HttpPost]
-        public FileResult DownloadFile(string secPhase)
+        public async Task<IActionResult> DownloadFile(string secPhase)
         {
-
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            float balance = user.GetBalance();
             File _file = new File();
-            _file = fileVault.DownLoadFile(secPhase);
-            return File(_file.Content, "application/pdf");
+            if (balance >= 100)
+            {
+                _file = fileVault.DownLoadFile(secPhase);
+                return File(_file.Content, "application/pdf");
+            }
+            else
+            {
+                ViewBag.Error = "Invalid file name or file path";
+                return RedirectToAction("RetrieveDocuments"); 
+            }     
         }
 
         public async Task<IActionResult> StoreDocuments()
@@ -137,7 +161,7 @@ namespace DocumentationChain.Controllers
 
 
         public IActionResult RetrieveDocuments()
-        {
+        {    
             return View();
         }
 
