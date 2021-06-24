@@ -37,38 +37,25 @@ namespace DocumentationChain.Controllers
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// Returns The View Of Index Page
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Index()
         {        
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
+        /// <summary>
+        /// Returns User to the Purchase Tokens View
+        /// </summary>
+        /// <returns></returns>
         public IActionResult PurchaseTokens()
         {
             return View();
         }
 
-
-        [HttpPost]
-        public async Task<IActionResult> AddTokenBalance(float amount)
-        {
-            //Get the Logged In User 
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-
-            //Get Balance 
-            float balance = user.GetBalance();
-
-            //Add To Balance 
-            float newBalance = balance + amount;
-            //Update to Balance
-            user.SetBalance(newBalance);
-            await _userManager.UpdateAsync(user);
-            return RedirectToAction("PurchaseTokens");
-        }
 
         /// <summary>
         /// Reads in a list of files and the Security Phase 
@@ -139,24 +126,29 @@ namespace DocumentationChain.Controllers
         [HttpPost]
         public async Task<IActionResult> DownloadFile(string secPhase)
         {
+            //New File
+            File _file = new File();
+
+            //Getting User and Users Balance 
             var user = await _userManager.GetUserAsync(HttpContext.User);
             float balance = user.GetBalance();
-            File _file = new File();
-            if (balance >= 100)
+           
+            //Checking If User Has Enough Balance To Retrieve Document if not
+            //Returns Error Through TempData (Need to Change)
+            if (balance >= 5)
             {
+                //Sorting out the new Balance and Updating the Database Column
+                float newBalance = balance - 5;
+                user.SetBalance(newBalance);
+                await _userManager.UpdateAsync(user);
                 _file = fileVault.DownLoadFile(secPhase);
                 return File(_file.Content, "application/pdf");
             }
             else
             {
-                ViewBag.Error = "Invalid file name or file path";
+                TempData["Message"] = "Insufficient funds please Add More Tokens";
                 return RedirectToAction("RetrieveDocuments"); 
             }     
-        }
-
-        public async Task<IActionResult> StoreDocuments()
-        {
-            return RedirectToAction("Documents");
         }
 
 
@@ -169,10 +161,6 @@ namespace DocumentationChain.Controllers
         {
             return View();
         }
-
-
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

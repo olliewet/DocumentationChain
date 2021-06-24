@@ -1,11 +1,11 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> userManager
 @model ErrorHandling
 
+@{
+    var cUser = await userManager.GetUserAsync(User);
+    var Balance = cUser.Balance;
+}
 <body>
     <div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
         <div class="tile is-vertical is-parent is-12">
@@ -22,30 +22,31 @@
             <div class="form-group">
                 <div class="col-md-10">
                     <h3> Please Enter a Secret Phase</h3>
-                    <input type="text" name="SecPhase" multiple />
+                    <input type="text" name="SecPhase" id="SecText" multiple />
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-10">
-                    <input type="submit" value="Upload" />
+
+                    <input type="submit" value="Retrieve" />
                 </div>
             </div>
         </form>
+
+        <h3><strong>@TempData["Message"]</strong></h3>
+
     </article>
 
-    @if (ViewBag.Error != null)
-    {
-        <h3 style="color:red">@ViewBag.Error</h3>
-    }
+    <h3 style="color:red; visibility:hidden;" id="errorMessage"></h3>
+   
 
 
 </body>
 
 
 <script>
-     function Onclick() {
-        var textbox = document.getElementById("SecText").value;
-
+    function Onclick() {   
+           var textbox = document.getElementById("SecText").value;
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("DownloadFile","Home")',
@@ -53,6 +54,7 @@
                     'secPhase': textbox
                 }
             });
-
+      
     }
+
 </script>
