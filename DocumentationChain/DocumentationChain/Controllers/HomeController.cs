@@ -67,51 +67,58 @@ namespace DocumentationChain.Controllers
         /// <returns></returns>
         public async Task<IActionResult> SettingUploadData(List<IFormFile> files, string SecPhase)
         {
-            //Get the Logged In User 
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-
-            //Get Balance 
-            float balance = user.GetBalance();
-          
-            if (balance >= 5)
+            try
             {
-                float newBalance = balance - 5;
-                user.SetBalance(newBalance);
-                await _userManager.UpdateAsync(user);
+                //Get the Logged In User 
+                var user = await _userManager.GetUserAsync(HttpContext.User);
 
-                long size = files.Sum(f => f.Length);
-                var filePaths = new List<string>();
-                foreach (var formFile in files)
+                //Get Balance 
+                float balance = user.GetBalance();
+
+                if (balance >= 5)
                 {
-                    if (formFile.Length > 0)
-                    {
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await formFile.CopyToAsync(memoryStream);
-                            // Upload the file if less than 2 MB
-                            if (memoryStream.Length < 2097152)
-                            {
-                                var file = new File()
-                                {
-                                    Content = memoryStream.ToArray(),
-                                    SecPhase = SecPhase
-                                };
-                                fileVault.UploadToDatabase(file);
-                            }
-                            else
-                            {
-                                ModelState.AddModelError("File", "The file is too large.");
-                            }
+                    float newBalance = balance - 5;
+                    user.SetBalance(newBalance);
+                    await _userManager.UpdateAsync(user);
 
+                    long size = files.Sum(f => f.Length);
+                    var filePaths = new List<string>();
+                    foreach (var formFile in files)
+                    {
+                        if (formFile.Length > 0)
+                        {
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                await formFile.CopyToAsync(memoryStream);
+                                // Upload the file if less than 2 MB
+                                if (memoryStream.Length < 2097152)
+                                {
+                                    var file = new File()
+                                    {
+                                        Content = memoryStream.ToArray(),
+                                        SecPhase = SecPhase
+                                    };
+                                    fileVault.UploadToDatabase(file);
+                                }
+                                else
+                                {
+                                    ModelState.AddModelError("File", "The file is too large.");
+                                }
+                            }
                         }
                     }
                 }
+                else
+                {
+                    ViewBag.ErrorMessage = "Not Enough Tokens";
+                }
+                return RedirectToAction("Documents");
             }
-            else
+            catch
             {
-                ViewBag.ErrorMessage = "Not Enough Tokens";
+                return RedirectToAction("Documents");
             }
-            return RedirectToAction("Documents");
+
         }
 
 
@@ -126,29 +133,37 @@ namespace DocumentationChain.Controllers
         [HttpPost]
         public async Task<IActionResult> DownloadFile(string secPhase)
         {
-            //New File
-            File _file = new File();
+            try
+            {
+                //New File
+                File _file = new File();
+                //Getting User and Users Balance                 
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                float balance = user.GetBalance();
+                
 
-            //Getting User and Users Balance 
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            float balance = user.GetBalance();
-           
-            //Checking If User Has Enough Balance To Retrieve Document if not
-            //Returns Error Through TempData (Need to Change)
-            if (balance >= 5)
-            {
-                //Sorting out the new Balance and Updating the Database Column
-                float newBalance = balance - 5;
-                user.SetBalance(newBalance);
-                await _userManager.UpdateAsync(user);
-                _file = fileVault.DownLoadFile(secPhase);
-                return File(_file.Content, "application/pdf");
+                //Checking If User Has Enough Balance To Retrieve Document if not
+                //Returns Error Through TempData (Need to Change)
+                if (balance >= 5)
+                {
+                    //Sorting out the new Balance and Updating the Database Column
+                    float newBalance = balance - 5;
+                    user.SetBalance(newBalance);
+                    await _userManager.UpdateAsync(user);
+                    _file = fileVault.DownLoadFile(secPhase);
+                    return File(_file.Content, "application/pdf");
+                }
+                else
+                {
+                    TempData["Message"] = "Insufficient funds please Add More Tokens";
+                    return RedirectToAction("RetrieveDocuments");
+                }
             }
-            else
+            catch
             {
-                TempData["Message"] = "Insufficient funds please Add More Tokens";
-                return RedirectToAction("RetrieveDocuments"); 
-            }     
+                TempData["Message"] = "Error";
+                return RedirectToAction("RetrieveDocuments");
+            }
         }
 
 

@@ -3,8 +3,16 @@
 @model ErrorHandling
 
 @{
-    var cUser = await userManager.GetUserAsync(User);
-    var Balance = cUser.Balance;
+    //Without Try Catch Error Is Thrown Because User Is Not Logged in when you try to load the page not logged in
+    try
+    {
+        var cUser = await userManager.GetUserAsync(User);
+        var Balance = cUser.Balance;
+    }
+    catch
+    {
+
+    }
 }
 <body>
     <div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
