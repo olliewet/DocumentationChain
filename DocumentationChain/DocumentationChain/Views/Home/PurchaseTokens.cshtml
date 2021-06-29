@@ -1,34 +1,66 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> userManager
 @{
+    //Without Try Catch Error Is Thrown Because User Is Not Logged in when you try to load the page not logged in
+    var cUser = await userManager.GetUserAsync(User);
+    bool isLogged = false;
+    if (cUser == null)
+    {
+        isLogged = false;
+    }
+    else
+    {
+        isLogged = true;
+        var Balance = cUser.Balance;
+    }
+
 }
 
 <body>
-    <div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
-        <div class="tile is-vertical is-parent is-12">
-            <div class="tile">
-                <article class="tile is-child notification is-white" style="text-align: center;">
-                    <p class="subtitle" style="font-family: 'IBM Plex Mono Light'"><strong>Purchase Tokens to store Documents!</strong> </p>
-                    <p class="subtitle" style="font-family: 'IBM Plex Mono Light'">Please Enter an Amount Below</p>
-                </article>
-            </div>
-        </div>
-    </div>
-    <div class="tile is-ancestor" style="margin-left: 550px; margin-right: 550px; margin-top: 10px;">
-        <div class="tile is-vertical is-parent is-6">
-            <div class="tile">
-                <div class="">
-                    <h3> Please Enter a Choosen Amount</h3>
-                    <input type="text" name="AmountBox" id="TokenPurchase" multiple />
+    @{if (isLogged)
+        {
+            <div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
+                <div class="tile is-vertical is-parent is-12">
+                    <div class="tile">
+                        <article class="tile is-child notification is-white" style="text-align: center;">
+                            <p class="subtitle" style="font-family: 'IBM Plex Mono Light'"><strong>Purchase Tokens to store Documents!</strong> </p>
+                            <p class="subtitle" style="font-family: 'IBM Plex Mono Light'">Please Enter an Amount Below</p>
+                        </article>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div style="text-align: center;">
-        <div id="paypal-button-container"></div>
-    </div>
+            <div class="tile is-ancestor" style="margin-left: 550px; margin-right: 550px; margin-top: 10px;">
+                <div class="tile is-vertical is-parent is-6">
+                    <div class="tile">
+                        <div class="">
+                            <h3> Please Enter a Choosen Amount</h3>
+                            <input type="text" name="AmountBox" id="TokenPurchase" multiple />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <div id="paypal-button-container"></div>
+            </div>
+        }
+        else
+        {
+            <div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
+                <div class="tile is-vertical is-parent is-12">
+                    <div class="tile">
+                        <article class="tile is-child notification is-white" style="text-align: center;">
+                            <p class="subtitle" style="font-family: 'IBM Plex Mono Light'"><strong>Purchase Log In To Purchase Tokens!</strong> </p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+
+
 </body>
 
 <script src="https://www.paypal.com/sdk/js?client-id=AYUMEewur6ChNqBT-8Rlq1c7PC2QX9rA8rVaUZ3Ntx6i8UQjQdMFgbNarkH9fY5IJ52CYps1pTNpIpyE&currency=GBP" data-sdk-integration-source="button-factory"></script>

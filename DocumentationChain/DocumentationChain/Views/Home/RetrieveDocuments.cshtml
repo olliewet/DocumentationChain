@@ -3,15 +3,16 @@
 @model ErrorHandling
 
 @{
-    //Without Try Catch Error Is Thrown Because User Is Not Logged in when you try to load the page not logged in
-    try
+    //Without Try Catch Error Is Thrown Because User Is Not Logged in when you try to load the page not logged in 
+    var cUser = await userManager.GetUserAsync(User);
+    bool isLogged = false;
+    if(cUser == null)
     {
-        var cUser = await userManager.GetUserAsync(User);
-        var Balance = cUser.Balance;
+        isLogged = true;
     }
-    catch
+    else
     {
-
+        var Balance = cUser.Balance;
     }
 }
 <body>

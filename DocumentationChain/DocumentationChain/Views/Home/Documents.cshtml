@@ -2,67 +2,90 @@
     ViewData["Title"] = "Documents";
 
 }
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> userManager
+@{
+    //Without Try Catch Error Is Thrown Because User Is Not Logged in when you try to load the page not logged in
+    var cUser = await userManager.GetUserAsync(User);
+    bool isLogged = false;
+    if (cUser == null)
+    {
+        isLogged = false;
+    }
+    else
+    {
+        isLogged = true;
+        var Balance = cUser.Balance;
+    }
+}
+@model File
 
-@model File 
- 
 
 
-<body>
-    <div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
-        <div class="tile is-vertical is-parent is-12">
-            <div class="tile">
-                <article class="tile is-child notification is-white" style="text-align: center;">
-                    <p class="subtitle" style="font-family: 'IBM Plex Mono Light'"><strong>Store Documents!</strong> </p>
-                    <p class="subtitle" style="font-family: 'IBM Plex Mono Light'">Please Click an Option Below</p>
-                </article>
-            </div>
-        </div>
-    </div>
-    <div class="tile is-ancestor center" style="margin-top: 20px;margin-left:400px; margin-right:400px;">
-        <div class="tile is-vertical">
-            <div class="tile">
-                <div class="tile is-parent">
-                    <article class="tile is-child notification is-white center">
-                        <div class="bg-white rounded shadow-sm ">
-
-                            <div class="p-4 ">
-                                <h5 class="text-dark"> </h5>
-                                <div class="d-flex align-items-center justify-content-between  px-3 py-2 mt-4">
-                                    <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold"></span></p>
-                                    <input type="file" name="elementName" style="display:none; " id="pdfFile" />
-                                    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SettingUploadData">
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <p>Upload one or more files using this form:</p>
-                                                <input type="file" name="files" multiple />
-
-                                                <h3> Please Enter a Secret Phase</h3>
-                                                <input type="text" name="SecPhase" multiple />
-
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <input type="submit" value="Upload" />
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
+    <body>
+        <div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
+            <div class="tile is-vertical is-parent is-12">
+                <div class="tile">
+                    <article class="tile is-child notification is-white" style="text-align: center;">
+                        <p class="subtitle" style="font-family: 'IBM Plex Mono Light'"><strong>Store Documents!</strong> </p>
+                        <p class="subtitle" style="font-family: 'IBM Plex Mono Light'">Please Click an Option Below</p>
                     </article>
                 </div>
             </div>
         </div>
-    </div>
-</body>
-<script>
+        <div class="tile is-ancestor center" style="margin-top: 20px;margin-left:400px; margin-right:400px;">
+            <div class="tile is-vertical">
+                <div class="tile">
+                    <div class="tile is-parent">
+                        <article class="tile is-child notification is-white center">
+                            <div class="bg-white rounded shadow-sm ">
 
-  
+                                <div class="p-4 ">
+                                    <h5 class="text-dark"> </h5>
+                                    <div class="d-flex align-items-center justify-content-between  px-3 py-2 mt-4">
+                                        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold"></span></p>
+                                        <input type="file" name="elementName" style="display:none; " id="pdfFile" />
+                                        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SettingUploadData">
+                                            <div class="form-group">
+                                                <div class="col-md-10">
+                                                    <p>Upload one or more files using this form:</p>
+                                                    <input type="file" name="files" multiple />
+
+                                                    <h3> Please Enter a Secret Phase</h3>
+                                                    <input type="text" name="SecPhase" multiple />
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-10">
+                                                    @if (isLogged)
+                                                    {
+                                                        <input type="submit" value="Upload" onClick='return confirmSubmit()' />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="submit" value="Upload" disabled />
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+
+
     function Onclick() {
         var textbox = document.getElementById("SecText").value;
-       
+
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("DownloadFile","Home")',
@@ -70,8 +93,16 @@
                     'secPhase': textbox
                 }
             });
-       
-    }
+
+        }
+
+        function confirmSubmit() {
+            var agree = confirm("Are you sure you wish to continue?");
+            if (agree)
+                return true;
+            else
+                return false;
+        }
 
 
 
@@ -88,12 +119,5 @@
         }
     }
 
-    function uploadDocuments() {
-        const fileInput = document.getElementById('pdfFile');
-        fileInput.onchange = () => {
-            const selectedFile = fileInput.files[0];
-            console.log(selectedFile);
-        }
-    }
 
-</script>
+    </script>
