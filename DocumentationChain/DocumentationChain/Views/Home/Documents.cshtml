@@ -22,64 +22,63 @@
 
 
 
-    <body>
-        <div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
-            <div class="tile is-vertical is-parent is-12">
-                <div class="tile">
-                    <article class="tile is-child notification is-white" style="text-align: center;">
-                        <p class="subtitle" style="font-family: 'IBM Plex Mono Light'"><strong>Store Documents!</strong> </p>
-                        <p class="subtitle" style="font-family: 'IBM Plex Mono Light'">Please Click an Option Below</p>
-                    </article>
-                </div>
+<body>
+    <div class="tile is-ancestor" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
+        <div class="tile is-vertical is-parent is-12">
+            <div class="tile">
+                <article class="tile is-child notification is-white" style="text-align: center;">
+                    <p class="subtitle" style="font-family: 'IBM Plex Mono Light'"><strong>Store Documents!</strong> </p>
+                    <p class="subtitle" style="font-family: 'IBM Plex Mono Light'">Please Click an Option Below</p>
+                </article>
             </div>
         </div>
-        <div class="tile is-ancestor center" style="margin-top: 20px;margin-left:400px; margin-right:400px;">
-            <div class="tile is-vertical">
-                <div class="tile">
-                    <div class="tile is-parent">
-                        <article class="tile is-child notification is-white center">
-                            <div class="bg-white rounded shadow-sm ">
+    </div>
 
-                                <div class="p-4 ">
-                                    <h5 class="text-dark"> </h5>
-                                    <div class="d-flex align-items-center justify-content-between  px-3 py-2 mt-4">
-                                        <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold"></span></p>
-                                        <input type="file" name="elementName" style="display:none; " id="pdfFile" />
-                                        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SettingUploadData">
-                                            <div class="form-group">
-                                                <div class="col-md-10">
-                                                    <p>Upload one or more files using this form:</p>
-                                                    <input type="file" name="files" multiple />
-
-                                                    <h3> Please Enter a Secret Phase</h3>
-                                                    <input type="text" name="SecPhase" multiple />
-
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-10">
-                                                    @if (isLogged)
-                                                    {
-                                                        <input type="submit" value="Upload" onClick='return confirmSubmit()' />
-                                                    }
-                                                    else
-                                                    {
-                                                        <input type="submit" value="Upload" disabled />
-                                                    }
-
-                                                </div>
-                                            </div>
-                                        </form>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
+    <div class="tile is-ancestor">
+        <!--First Column-->
+        <div class="tile is-parent is-4 is-vertical">
+            <!--Introduction text-->
+         
+        </div>
+        <div class="tile is-parent is-4 is-vertical">
+            <!--Introduction text-->
+            <article class="tile is-child notification box is-success" style="box-shadow: #000000 0 5px 15px; box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;">
+                <input type="file" name="elementName" style="display:none; " id="pdfFile" />
+                <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="SettingUploadData">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <p>Upload one or more files using this form:</p>
+                            <input type="file" name="files" multiple />
+                            <h3> Please Enter a Secret Phase</h3>
+                            <input type="text" name="SecPhase" multiple />
+                        </div>
                     </div>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @if (isLogged)
+                            {
+                                <input type="submit" value="Upload" onClick='return confirmSubmit()' />
+                            }
+                            else
+                            {
+                                <input type="submit" value="Upload" disabled />
+                            }
+                        </div>
+                    </div>
+                </form>
+            </article>
         </div>
-    </body>
+        <div class="tile is-parent is-4 is-vertical">
+            <!--Introduction text-->
+            <article class="tile is-child">
+            </article>
+        </div>
+        <!--Second Column-->
+
+    </div>
+
+
+</body>
     <script>
 
 

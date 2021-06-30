@@ -3,10 +3,10 @@
 @model ErrorHandling
 
 @{
-    //Without Try Catch Error Is Thrown Because User Is Not Logged in when you try to load the page not logged in 
+    //Without Try Catch Error Is Thrown Because User Is Not Logged in when you try to load the page not logged in
     var cUser = await userManager.GetUserAsync(User);
     bool isLogged = false;
-    if(cUser == null)
+    if (cUser == null)
     {
         isLogged = true;
     }
@@ -26,35 +26,50 @@
             </div>
         </div>
     </div>
-    <article class="tile is-child notification box" style="box-shadow: #000000 0 5px 15px; box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;">
-        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="DownloadFile">
-            <div class="form-group">
-                <div class="col-md-10">
-                    <h3> Please Enter a Secret Phase</h3>
-                    <input type="text" name="SecPhase" id="SecText" multiple />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-10">
 
-                    <input type="submit" value="Retrieve" />
-                </div>
-            </div>
-        </form>
 
-        <h3><strong>@TempData["Message"]</strong></h3>
+    <div class="tile is-ancestor">
+        <!--First Column-->
+        <div class="tile is-parent is-4 is-vertical">
+            <!--Introduction text-->
 
-    </article>
+        </div>
+        <div class="tile is-parent is-4 is-vertical">
+            <!--Introduction text-->
+            <article class="tile is-child notification box is-success" style="box-shadow: #000000 0 5px 15px; box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;">
+                <input type="file" name="elementName" style="display:none; " id="pdfFile" />
+                <input type="file" name="elementName" style="display:none; " id="pdfFile" />
+                <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="DownloadFile">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <h3> Please Enter a Secret Phase</h3>
+                            <input type="text" name="SecPhase" id="SecText" multiple />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
 
-    <h3 style="color:red; visibility:hidden;" id="errorMessage"></h3>
-   
+                            <input type="submit" value="Retrieve" />
+                        </div>
+                    </div>
+                </form>
 
+                <h3><strong>@TempData["Message"]</strong></h3>
+            </article>
+        </div>
+        <div class="tile is-parent is-4 is-vertical">
+            <!--Introduction text-->
+            <article class="tile is-child">
+            </article>
+        </div>
+        <!--Second Column-->
+
+    </div>
 
 </body>
 
-
 <script>
-    function Onclick() {   
+    function Onclick() {
            var textbox = document.getElementById("SecText").value;
             $.ajax({
                 type: 'POST',
@@ -63,7 +78,7 @@
                     'secPhase': textbox
                 }
             });
-      
+
     }
 
 </script>
