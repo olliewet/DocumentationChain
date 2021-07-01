@@ -15,7 +15,9 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 using File = DocumentationChain.Models.File;
+using System.Text;
 
 namespace DocumentationChain.Controllers
 {
@@ -56,6 +58,26 @@ namespace DocumentationChain.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Sourced From https://stackoverflow.com/a/6839784/13839509
+        /// Used To Hash a String, which will be stored in the database 
+        /// </summary>
+        /// <param name="inputString"></param>
+        /// <returns></returns>
+        public static byte[] GetHash(string inputString)
+        {
+            using (HashAlgorithm algorithm = SHA256.Create())
+                return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+        }
+
+        public static string GetHashString(string inputString)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in GetHash(inputString))
+                sb.Append(b.ToString("X2"));
+
+            return sb.ToString();
+        }
 
         /// <summary>
         /// Reads in a list of files and the Security Phase 
@@ -83,6 +105,11 @@ namespace DocumentationChain.Controllers
 
                     long size = files.Sum(f => f.Length);
                     var filePaths = new List<string>();
+
+                    //Stores the hash of the secret phase in the database 
+                    SecPhase = GetHashString(SecPhase);
+
+
                     foreach (var formFile in files)
                     {
                         if (formFile.Length > 0)
@@ -140,8 +167,9 @@ namespace DocumentationChain.Controllers
                 //Getting User and Users Balance                 
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 float balance = user.GetBalance();
-                
 
+                //Encrypt the SecPhase 
+                secPhase = GetHashString(secPhase);
                 //Checking If User Has Enough Balance To Retrieve Document if not
                 //Returns Error Through TempData (Need to Change)
                 if (balance >= 5)
