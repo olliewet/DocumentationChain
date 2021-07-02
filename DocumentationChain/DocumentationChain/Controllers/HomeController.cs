@@ -80,6 +80,23 @@ namespace DocumentationChain.Controllers
         }
 
         /// <summary>
+        /// Used to Create a Random String of Words, this will be used instead of the Security Phase
+        /// </summary>
+        /// <returns></returns>
+        public static string GenerateRandomString()
+        {
+            Random r = new Random();
+            List<string> RandomString = new List<string>();
+            string[] words = { "man", "rat", "cow", "chicken" , "food" , "pizza" , "car"};
+            for (int i = 0; i < 10; i++)
+            {
+                RandomString.Add(words[r.Next(0, words.Length - 1)]);
+            }
+            string Something = string.Join(" ", RandomString);
+            return Something;
+        }
+
+        /// <summary>
         /// Reads in a list of files and the Security Phase 
         /// The file and the security phase is stored in the database 
         /// Redirection to Document Page
@@ -105,6 +122,9 @@ namespace DocumentationChain.Controllers
 
                     long size = files.Sum(f => f.Length);
                     var filePaths = new List<string>();
+
+                    //Implement a Function that generate A Unquie String 
+                    GenerateRandomString();
 
                     //Stores the hash of the secret phase in the database 
                     SecPhase = GetHashString(SecPhase);
@@ -139,7 +159,7 @@ namespace DocumentationChain.Controllers
                 {
                     ViewBag.ErrorMessage = "Not Enough Tokens";
                 }
-                return RedirectToAction("Documents");
+                return RedirectToAction("Documents"); //Return The Random String to the User 
             }
             catch
             {
