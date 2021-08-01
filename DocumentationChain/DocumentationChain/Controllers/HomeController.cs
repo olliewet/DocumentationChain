@@ -27,11 +27,13 @@ namespace DocumentationChain.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly AccountVault accountVault = null;
         private readonly FileVault fileVault = null;
+        private readonly ThemeVault themeVault = null;
         private readonly SignInManager<ApplicationUser> _signManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, AccountVault av, FileVault fv, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public HomeController(ILogger<HomeController> logger, AccountVault av, FileVault fv, ThemeVault tv,  SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
+            themeVault = tv;
             accountVault = av;
             fileVault = fv;
             _logger = logger;
@@ -44,10 +46,16 @@ namespace DocumentationChain.Controllers
         /// </summary>
         /// <returns></returns>
         public async Task<IActionResult> Index()
-        {        
+        {
+            await AddingContentBox();
             return View();
         }
 
+
+        public IActionResult ThemeOne()
+        {                
+            return View(themeVault.GetAllContentBoxes());
+        }
 
         /// <summary>
         /// Returns User to the Purchase Tokens View
@@ -94,6 +102,18 @@ namespace DocumentationChain.Controllers
             }
             string Something = string.Join(" ", RandomString);
             return Something;
+        }
+
+        public async Task AddingContentBox()
+        {
+            ThemeTesting theme = new ThemeTesting();
+            theme.ThemeID = "Health";
+            theme.PageID = "PageTwo";
+            theme.Index = 2;
+            theme.Style = "is-link";
+            theme.Title = "Testing Title";
+            theme.Content = "Test";
+            themeVault.UploadToDatabase(theme);
         }
 
         /// <summary>

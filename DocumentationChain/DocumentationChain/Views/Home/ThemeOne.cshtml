@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> userManager
+@model List<ThemeTesting>
+
+@{
+
+}
+<body>
+    @foreach (ThemeTesting item in Model)
+    {
+    <div class="tile is-ancestor">
+        <div class="tile is-vertical is-8 ">
+            <div class="tile">
+                <div class="tile is-parent is-vertical">
+                    <article class="tile is-child notification is-purple box content-box-boxshadow">
+                        <p class="title" id="reflection">@item.Title</p>
+                        <p>@item.Content</p>
+                    </article>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    
+</body>

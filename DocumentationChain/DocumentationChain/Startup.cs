@@ -40,6 +40,7 @@ namespace DocumentationChain
             services.AddControllersWithViews();
             services.AddScoped<AccountVault, AccountVault>();
             services.AddScoped<FileVault, FileVault>();
+            services.AddScoped<ThemeVault, ThemeVault>();
             services.AddRazorPages();
         }
 
